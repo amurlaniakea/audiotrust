@@ -1,5 +1,8 @@
 """AudioTrust - cacheo local de pesos de AudioSeal.
 
+Copyright (C) 2026 Pedro Sordo Martínez <amurlaniakea@gmail.com>
+SPDX-License-Identifier: AGPL-3.0-or-later
+
 Descarga los pesos de facebook/audioseal (repo PUBLICO, sin token HF) la primera
 vez y los cachea localmente. En ejecucion NO hay llamadas de red: se usa la copia
 local. Ver KNOWN_ISSUES.md KI-3 (hallazgos del spike).

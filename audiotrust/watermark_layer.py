@@ -1,5 +1,8 @@
 """AudioTrust - capa watermark AudioSeal.
 
+Copyright (C) 2026 Pedro Sordo Martínez <amurlaniakea@gmail.com>
+SPDX-License-Identifier: AGPL-3.0-or-later
+
 Detecta la presencia de watermark inaudible y devuelve UNICAMENTE detect_prob
 (P(audio watermarked)). REGLA KI-3: el mensaje decodificado es INCONSISTENTE entre
 corridas y NO se usa para nada en la logica de reconciliacion. Esta capa no lo expone.

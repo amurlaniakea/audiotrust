@@ -1,5 +1,8 @@
 """AudioTrust - paquete.
 
+Copyright (C) 2026 Pedro Sordo Martínez <amurlaniakea@gmail.com>
+SPDX-License-Identifier: AGPL-3.0-or-later
+
 El import de `main` es PEREZOSO (lazy) a proposito: `cli` arrastra watermark_layer
 -> torch/audioseal/soundfile, un stack pesado. Quien solo necesite `reconcile` o
 `c2pa_layer.C2paResult` (dataclasses sin deps pesadas) NO debe cargar torch.

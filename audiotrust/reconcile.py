@@ -1,5 +1,8 @@
 """AudioTrust - logica de reconciliacion (tabla T1 de Tasks.md).
 
+Copyright (C) 2026 Pedro Sordo Martínez <amurlaniakea@gmail.com>
+SPDX-License-Identifier: AGPL-3.0-or-later
+
 Veredicto determinista basado en source_type C2PA + detect_prob de watermark.
 NO se anaden casos fuera de la tabla T1. El mensaje de AudioSeal NO interviene.
 """

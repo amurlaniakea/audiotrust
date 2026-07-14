@@ -1,5 +1,8 @@
 """AudioTrust - capa C2PA (lectura de manifest).
 
+Copyright (C) 2026 Pedro Sordo Martínez <amurlaniakea@gmail.com>
+SPDX-License-Identifier: AGPL-3.0-or-later
+
 Lee el manifest C2PA embebido en un archivo de audio y extrae el source_type y los
 claims de origen. NO firma (ver KNOWN_ISSUES.md KI-1: firma resuelta con c2patool
 en la generacion de fixtures). Usa c2pa-python 0.36.0 (Reader).

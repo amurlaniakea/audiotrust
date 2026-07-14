@@ -1,5 +1,8 @@
 """AudioTrust - CLI.
 
+Copyright (C) 2026 Pedro Sordo Martínez <amurlaniakea@gmail.com>
+SPDX-License-Identifier: AGPL-3.0-or-later
+
 Uso:
   audiotrust verify <archivo_audio> [--json] [--explain] [--wm-threshold FLOAT]
 """
