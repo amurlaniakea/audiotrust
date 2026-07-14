@@ -1,0 +1,8 @@
+# Pesos de AudioSeal (se descargan via huggingface_hub en la 1a ejecucion)
+models/
+# Binario c2patool (descarga manual, ver KNOWN_ISSUES.md KI-5)
+tools/
+# Python
+__pycache__/
+*.pyc
+.venv/

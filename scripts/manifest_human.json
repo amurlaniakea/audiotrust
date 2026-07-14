@@ -1,0 +1,21 @@
+{
+  "assertions": [
+    {
+      "label": "stds.schema-org.CreativeWork",
+      "data": {
+        "@context": "https://schema.org/",
+        "@type": "AudioObject",
+        "author": [{"type": "Person", "name": "AudioTrust fixture"}]
+      }
+    },
+    {
+      "label": "c2pa.actions",
+      "data": {
+        "actions": [
+          {"action": "c2pa.created", "softwareAgent": "HumanRecorder", "parameters": {}}
+        ]
+      }
+    }
+  ],
+  "title": "AudioTrust human fixture"
+}

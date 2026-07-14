@@ -1,0 +1,7 @@
+c2pa-python==0.36.0
+audioseal==0.2.0
+torch
+huggingface_hub
+soundfile
+numpy
+pytest

@@ -1,0 +1,22 @@
+{
+  "assertions": [
+    {
+      "label": "stds.schema-org.CreativeWork",
+      "data": {
+        "@context": "https://schema.org/",
+        "@type": "AudioObject",
+        "author": [{"type": "Person", "name": "AudioTrust fixture"}],
+        "generatedBy": {"@type": "SoftwareApplication", "name": "TestTTS", "version": "1.0"}
+      }
+    },
+    {
+      "label": "c2pa.actions",
+      "data": {
+        "actions": [
+          {"action": "c2pa.created", "softwareAgent": "TestTTS", "parameters": {}}
+        ]
+      }
+    }
+  ],
+  "title": "AudioTrust synthetic fixture"
+}
