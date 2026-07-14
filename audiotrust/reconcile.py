@@ -25,6 +25,24 @@ HUMAN_TYPES = {
     "c2pa.digital_creation",
 }
 
+# Senales POSITIVAS de generacion por IA (no solo "c2pa.created" generico).
+# c2pa.created esta en CUALQUIER manifest (sea IA o humano) -> NO basta.
+# Se requiere una senal de herramienta generativa conocida o accion generativa.
+SYNTHETIC_SIGNALS = (
+    "generatedby",          # schema.org generatedBy con nombre de herramienta
+    "softwareagent",        # c2pa.created con softwareAgent (herramienta, no humano)
+    "trained_algorithmic",  # accion/assertion de medio algoritmico
+    "c2pa.generated",       # accion generativa explicita
+    "generative",           # softwareAgent generativo
+)
+# Senales POSITIVAS de origen humano / captura real.
+HUMAN_SIGNALS = (
+    "c2pa.digital_capture", # accion de captura (camara/microfono)
+    "c2pa.captured",        # captura explicita
+    "device",               # dispositivo de captura en claims
+    "c2pa.edited",          # edicion humana
+)
+
 
 @dataclass
 class Verdict:
@@ -33,7 +51,16 @@ class Verdict:
 
 
 def _origin_claim(c2pa: C2paResult) -> Optional[str]:
-    """Devuelve 'synthetic' | 'human' | 'indeterminate' | None (sin C2PA)."""
+    """Devuelve 'synthetic' | 'human' | 'indeterminate' | None (sin C2PA).
+
+    REGLA DE SEGURIDAD (corregido tras auditoria de Claude):
+    El default sin evidencia POSITIVA de origen es 'indeterminate' (-> partial),
+    NUNCA 'synthetic'. Marcar 'synthetic' (que habilita el veredicto 'trusted',
+    la afirmacion mas fuerte) exige senal positiva explicita de generacion por IA.
+    'c2pa.created' solo NO basta: esta en practicamente cualquier manifest, sea
+    IA o humano, y usarlo como prueba de sintetico invertia la logica del producto
+    (trusted demasiado facil, contradiction casi inalcanzable).
+    """
     if not c2pa.present:
         return None
     st = (c2pa.source_type or "").lower() if c2pa.source_type else ""
@@ -43,11 +70,14 @@ def _origin_claim(c2pa: C2paResult) -> Optional[str]:
         return "human"
     # claims legibles (acciones/softwareAgent/generatedBy)
     text = " ".join(c2pa.claims).lower()
-    if "generatedby" in text or "softwareagent" in text or "c2pa.created" in text:
-        # accion de creacion por software -> sintetico
-        if any(k in text for k in ("human", "camera", "capture")):
-            return "human"
+    has_synth = any(s in text for s in SYNTHETIC_SIGNALS)
+    has_human = any(s in text for s in HUMAN_SIGNALS)
+    # Solo senal IA positiva -> synthetic. Solo senal humana -> human.
+    # Ambas, ninguna o ambiguo -> indeterminate (default seguro).
+    if has_synth and not has_human:
         return "synthetic"
+    if has_human and not has_synth:
+        return "human"
     return "indeterminate"
 
 

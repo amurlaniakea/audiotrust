@@ -94,3 +94,37 @@ def test_watermark_layer_never_returns_message():
     assert "detect_prob" in dir(wl)
     # El modulo no expone funcion que devuelva el mensaje decodificado
     assert not any("message" in n and "detect" not in n for n in dir(wl))
+
+
+def test_origin_heuristic():
+    # Caso realista de la auditoria de Claude (KI-6): agente humano SIN la palabra
+    # magica "human"/"camera"/"capture" en el nombre. Con la logica INVERTIDA anterior
+    # esto caia en "synthetic" -> trusted indebido. Con la correccion -> indeterminate
+    # -> partial (aunque detect_prob sea alto, NO debe decir trusted).
+    human_realistic = C2paResult(
+        present=True,
+        claims=["action=c2pa.created by Zoom H4n"],  # grabadora humana normal
+    )
+    assert reconcile(human_realistic, detect_prob=0.99, wm_threshold=WM_THRESHOLD).verdict == "partial"
+
+    # Agente IA explicito (generatedBy con herramienta) -> synthetic -> trusted con wm
+    ai_explicit = C2paResult(
+        present=True,
+        claims=["action=c2pa.created by TestTTS", "generatedBy=TestTTS"],
+    )
+    assert reconcile(ai_explicit, detect_prob=0.92, wm_threshold=WM_THRESHOLD).verdict == "trusted"
+
+    # Captura humana declarada -> human -> contradiction con wm
+    capture = C2paResult(
+        present=True,
+        claims=["action=c2pa.digital_capture by iPhone"],
+    )
+    assert reconcile(capture, detect_prob=0.92, wm_threshold=WM_THRESHOLD).verdict == "contradiction"
+
+    # Solo c2pa.created generico, sin senal IA ni humana -> indeterminate -> partial
+    generic = C2paResult(
+        present=True,
+        claims=["action=c2pa.created"],
+    )
+    assert reconcile(generic, detect_prob=0.99, wm_threshold=WM_THRESHOLD).verdict == "partial"
+

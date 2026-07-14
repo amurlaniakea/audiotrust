@@ -236,3 +236,35 @@ Por tanto `trusted`/`contradiction` no tienen fixture de AUDIO firmado real hoy.
 Lo documentado prevalece sobre "c2patool resuelve KI-1": en ESTE entorno, con ESTA
 build, el embebido de audio no está soportado. El binario en sí funciona (firma JPG).
 
+---
+
+## KI-6 — Bug de logica en `_origin_claim` (reconciliacion invertida) — CORREGIDO
+
+**Severidad:** Crítica (afectaba el veredicto central del producto)
+**Fecha:** 2026-07-14 · **Estado:** CORREGIDO (hallado por auditoria de Claude en clone limpio)
+
+**Hallazgo de Claude (independiente, verificado):** `_origin_claim` clasificaba como
+`"synthetic"` cualquier claim con `c2pa.created` genérico (presente en CUALQUIER
+manifest, sea IA o humano), salvo que el nombre del agente contuviera literalmente
+"human"/"camera"/"capture". Con un agente humano realista ("Zoom H4n", "Voice Memos")
+el origen caía en `"synthetic"`; si `detect_prob` daba alto, el veredicto era
+`trusted` EN VEZ de `contradiction`. Eso invertía el propósito: `trusted` demasiado
+fácil, `contradiction` (Integrity Clash, corazón del producto) casi inalcanzable.
+
+**Corrección aplicada en `reconcile.py`:**
+- Default sin evidencia POSITIVA de origen = `"indeterminate"` (-> `partial`), NUNCA
+  `"synthetic"`.
+- `"synthetic"` solo con señal positiva explícita de generación por IA
+  (`SYNTHETIC_SIGNALS`: generatedby / softwareagent / trained_algorithmic /
+  c2pa.generated / generative). `c2pa.created` solo NO basta.
+- `"human"` solo con señal positiva explícita de captura (`HUMAN_SIGNALS`:
+  c2pa.digital_capture / c2pa.captured / device / c2pa.edited).
+- Ambas/ninguna/ambigua -> `"indeterminate"` (default seguro).
+Así `trusted` exige evidencia de IA y `contradiction` es alcanzable cuando el C2PA
+declara captura humana y hay watermark.
+
+**Tests:** `test_verify.py` añade `test_origin_heuristic` que cubre los casos
+("Zoom H4n" -> indeterminate->partial; "TestTTS" generatedBy -> synthetic; captura
+-> human). Verificado en clone limpio por Claude.
+
+
