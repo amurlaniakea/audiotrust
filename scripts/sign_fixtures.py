@@ -1,4 +1,6 @@
 """Firma los WAVs base con c2patool (KI-1, Opción C) para producir fixtures C2PA reales.
+Copyright (C) 2026 Pedro Sordo Martínez <amurlaniakea@gmail.com>
+SPDX-License-Identifier: AGPL-3.0-or-later
 
 NO usa el binding Python de c2pa (tiene el bug de certificado KI-1). Usa el binario
 oficial contentauth/c2patool (releases en github.com/contentauth/c2patool).

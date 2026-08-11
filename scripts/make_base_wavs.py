@@ -1,4 +1,6 @@
 """Genera WAVs de prueba para fixtures de AudioTrust (sin watermark todavia).
+Copyright (C) 2026 Pedro Sordo Martínez <amurlaniakea@gmail.com>
+SPDX-License-Identifier: AGPL-3.0-or-later
 Se firman luego con c2patool (KI-1, Opción C) para producir los fixtures C2PA.
 """
 import numpy as np
