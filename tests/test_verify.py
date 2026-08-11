@@ -1,4 +1,6 @@
 """Tests de AudioTrust.
+Copyright (C) 2026 Pedro Sordo Martínez <amurlaniakea@gmail.com>
+SPDX-License-Identifier: AGPL-3.0-or-later
 
 Cobertura verificable en este entorno (ver KNOWN_ISSUES.md KI-5):
 - partial: WAV watermarkado por AudioSeal (real) SIN C2PA -> partial.      [END-TO-END real]

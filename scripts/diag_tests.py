@@ -1,4 +1,8 @@
-"""Diagnostico local de los dos fallos de test (no -c inline)."""
+"""Diagnostico local de los dos fallos de test (no -c inline).
+
+Copyright (C) 2026 Pedro Sordo Martínez <amurlaniakea@gmail.com>
+SPDX-License-Identifier: AGPL-3.0-or-later
+"""
 import os, sys, numpy as np, soundfile as sf, torch, audioseal
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from audiotrust import models as mdl

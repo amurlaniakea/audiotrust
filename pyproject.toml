@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68.0.0"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,8 +8,9 @@ version = "0.1.0"
 description = "Verificador de reconciliacion de confianza para audio sintetico (C2PA + watermark AudioSeal)."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "AGPL-3.0-or-later" }
-authors = [{ name = "Pedro Sordo Martinez", email = "amurlaniakea@gmail.com" }]
+license = "AGPL-3.0-or-later"
+license-files = ["LICENSE"]
+authors = [{ name = "Pedro Sordo Martínez", email = "amurlaniakea@gmail.com" }]
 dependencies = [
     "c2pa-python==0.36.0",
     "audioseal==0.2.0",
